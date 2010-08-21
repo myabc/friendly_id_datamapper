@@ -1,21 +1,9 @@
-require 'friendly_id/finders'
+
 
 module FriendlyId
   module DataMapperAdapter
 
     module SimpleModel
-
-      class SingleFinder
-
-        include FriendlyId::Finders::Base
-        include FriendlyId::Finders::Single
-
-        def find
-          result = model_class.first(options.merge!(friendly_id_config.column.to_sym => id))
-          result
-        end
-
-      end
 
       def self.included(base)
         base.class_eval do
@@ -27,9 +15,12 @@ module FriendlyId
 
         def base.get(*key)
           if key.size == 1
+            return super if key.first.unfriendly_id?
+            column     = self.friendly_id_config.column
             repository = self.repository
             key        = self.key(repository.name).typecast(key)
-            SingleFinder.new(key, self).find or super
+            result     = self.first(column.to_sym => key)
+            result || super
           else
             super
           end
@@ -38,7 +29,7 @@ module FriendlyId
 
       # Get the {FriendlyId::Status} after the find has been performed.
       def friendly_id_status
-        @friendly_id_status ||= Status.new :record => self
+        @friendly_id_status ||= Status.new(:record => self)
       end
 
       # Returns the friendly_id.

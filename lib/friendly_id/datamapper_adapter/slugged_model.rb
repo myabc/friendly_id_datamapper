@@ -6,23 +6,6 @@ module FriendlyId
 
     module SluggedModel
 
-      class SingleFinder
-
-        include FriendlyId::Finders::Base
-        include FriendlyId::Finders::Single
-
-        def find
-          result = model_class.first({
-            model_class.slugs.name => name,
-            # model_class.slugs.sluggable_type => model_class.to_s
-            model_class.slugs.sequence => sequence
-          })
-          # result.friendly_id_status.name = id if result
-          result
-        end
-
-      end
-
       include FriendlyId::Slugged::Model
 
       def self.included(base)
@@ -30,12 +13,12 @@ module FriendlyId
           has 1, :slug,
             :model      => ::FriendlyId::DataMapperAdapter::Slug,
             :child_key  => [:sluggable_id],
-            :conditions => {:sluggable_type => "#{base.to_s}"},
+            :conditions => { :sluggable_type => base },
             :order      => [:id.desc]
           has n, :slugs,
             :model      => ::FriendlyId::DataMapperAdapter::Slug,
             :child_key  => [:sluggable_id],
-            :conditions => {:sluggable_type => "#{base.to_s}"},
+            :conditions => { :sluggable_type => base },
             :order      => [:id.desc]
 
           before :save do
@@ -62,9 +45,17 @@ module FriendlyId
 
         def base.get(*key)
           if key.size == 1
+            return super if key.first.unfriendly_id?
+            name, sequence = key.first.to_s.parse_friendly_id
             repository = self.repository
-            key        = self.key(repository.name).typecast(key)
-            SingleFinder.new(key, self).find or super
+            result     = self.first({
+              slugs.name     => name,
+              slugs.sequence => sequence
+            })
+            return super unless result
+            result.friendly_id_status.name = name
+            result.friendly_id_status.sequence = sequence
+            result
           else
             super
           end
@@ -72,7 +63,10 @@ module FriendlyId
       end
 
       def find_slug(name, sequence)
-        slugs.first(:name => name, :sequence => sequence)
+        self.slug = self.slugs.first(:name => name, :sequence => sequence)
+        #s = FriendlyId::DataMapperAdapter::Slug.first(:name => name, :sequence => sequence,
+        #  :sluggable_type => self.class)
+        slug
       end
 
       def self.slug_class
@@ -83,7 +77,9 @@ module FriendlyId
 
       def build_slug
         self.slug = SluggedModel.slug_class.new(:name => slug_text,
-          :sluggable_type => self.class.to_s, :sluggable_id => self.id)
+          :sluggable_type => self.class)#, :sluggable_id => self.id)
+        raise FriendlyId::BlankError unless self.slug.valid?
+        self.slug
       end
 
       def skip_friendly_id_validations

@@ -2,9 +2,10 @@ module FriendlyId
   module DataMapperAdapter
     module Version
       MAJOR  = 3
-      MINOR  = 0
-      TINY   = 6
-      STRING = [MAJOR, MINOR, TINY].join(".")
+      MINOR  = 1
+      TINY   = 0
+      BUILD  = 'pre'
+      STRING = [MAJOR, MINOR, TINY, BUILD].compact.join('.')
     end
   end
 end
