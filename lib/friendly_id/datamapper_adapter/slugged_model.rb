@@ -33,9 +33,12 @@ module FriendlyId
 
           after(:save) do
             throw :halt, false if friendly_id_config.allow_nil? && !slug
+
             slug.sluggable_id = id
             slug.save
+            set_slug_cache
           end
+
         end
 
         def base.get(*key)
@@ -68,20 +71,60 @@ module FriendlyId
         @slug
       end
 
+      # Returns the friendly id, or if none is available, the numeric id. Note that this
+      # method will use the cached_slug value if present, unlike {#friendly_id}.
+      def to_param
+        friendly_id_config.cache_column ? to_param_from_cache : to_param_from_slug
+      end
+
       def self.slug_class
         FriendlyId::DataMapperAdapter::Slug
       end
 
       private
 
+      # Respond with the cached value if available.
+      def to_param_from_cache
+        read_attribute(friendly_id_config.cache_column) || id.to_s
+      end
+
+      # Respond with the slugged value if available.
+      def to_param_from_slug
+        slug? ? slug.to_friendly_id : id.to_s
+      end
+
+      # Build the new slug using the generated friendly id.
       def build_slug
+        return unless new_slug_needed?
         @slug = slugs.new(:name => slug_text)
         raise FriendlyId::BlankError unless @slug.valid?
+        @new_friendly_id = @slug.to_friendly_id
         @slug
+      end
+
+      # Reset the cached friendly_id?
+      def new_cache_needed?
+        uses_slug_cache? && slug? && send(friendly_id_config.cache_column) != slug.to_friendly_id
+      end
+
+      # Reset the cached friendly_id.
+      def set_slug_cache
+        if new_cache_needed?
+          #send "#{friendly_id_config.cache_column}=", slug.to_friendly_id
+          self.attribute_set(friendly_id_config.cache_column, slug.to_friendly_id)
+          # puts self.dirty?
+
+          save!
+        end
       end
 
       def skip_friendly_id_validations
         friendly_id.nil? && friendly_id_config.allow_nil?
+      end
+
+      # Does the model use slug caching?
+      def uses_slug_cache?
+        friendly_id_config.cache_column?
       end
 
     end
