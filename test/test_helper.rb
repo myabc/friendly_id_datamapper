@@ -7,7 +7,6 @@ rescue LoadError
   Bundler.setup
 end
 
-require 'active_support'
 require "friendly_id"
 require "friendly_id/test"
 require "logger"

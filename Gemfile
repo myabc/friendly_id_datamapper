@@ -1,7 +1,5 @@
 source :rubygems
 
-gem 'activesupport',      '~> 3.0.0.rc', :require => 'active_support'
-
 gem 'dm-core',            '~> 1.0.0'
 gem 'dm-migrations',      '~> 1.0.0'
 gem 'dm-validations',     '~> 1.0.0'
