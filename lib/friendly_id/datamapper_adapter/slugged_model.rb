@@ -10,11 +10,6 @@ module FriendlyId
 
       def self.included(base)
         base.class_eval do
-          has 1, :slug,
-            :model      => ::FriendlyId::DataMapperAdapter::Slug,
-            :child_key  => [:sluggable_id],
-            :conditions => { :sluggable_type => base },
-            :order      => [:id.desc]
           has n, :slugs,
             :model      => ::FriendlyId::DataMapperAdapter::Slug,
             :child_key  => [:sluggable_id],
@@ -62,11 +57,15 @@ module FriendlyId
         end
       end
 
+      def slug
+        @slug ||= slugs.first
+      end
+
       def find_slug(name, sequence)
-        self.slug = self.slugs.first(:name => name, :sequence => sequence)
+        @slug = slugs.first(:name => name, :sequence => sequence)
         #s = FriendlyId::DataMapperAdapter::Slug.first(:name => name, :sequence => sequence,
         #  :sluggable_type => self.class)
-        slug
+        @slug
       end
 
       def self.slug_class
@@ -76,10 +75,9 @@ module FriendlyId
       private
 
       def build_slug
-        self.slug = SluggedModel.slug_class.new(:name => slug_text,
-          :sluggable_type => self.class)#, :sluggable_id => self.id)
-        raise FriendlyId::BlankError unless self.slug.valid?
-        self.slug
+        @slug = slugs.new(:name => slug_text)
+        raise FriendlyId::BlankError unless @slug.valid?
+        @slug
       end
 
       def skip_friendly_id_validations
