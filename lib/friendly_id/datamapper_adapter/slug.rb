@@ -20,7 +20,7 @@ module FriendlyId
 
       # Whether this slug is the most recent of its owner's slugs.
       def current?
-        sluggable.slug == self
+        sluggable.slugs.first == self
       end
 
       def to_friendly_id
