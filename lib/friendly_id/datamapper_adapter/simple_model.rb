@@ -20,7 +20,9 @@ module FriendlyId
             repository = self.repository
             key        = self.key(repository.name).typecast(key)
             result     = self.first(column.to_sym => key)
-            result || super
+            return super unless result
+            result.friendly_id_status.name = name
+            result
           else
             super
           end

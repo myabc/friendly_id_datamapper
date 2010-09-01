@@ -6,16 +6,28 @@ module FriendlyId
 
       module Slugged
 
+=begin
+        test "should allow eager loading of slugs" do
+          assert_nothing_raised do
+            klass.find(instance.friendly_id, :include => :slugs)
+          end
+
+          assert_nothing_raised do
+            klass.find(instance.friendly_id, :include => :slug)
+          end
+        end
+=end
+
         def klass
           Post
         end
 
         def other_class
-          City
+          District
         end
 
         def instance
-          @instance ||= klass.send(create_method, :name => "hello world")
+          @instance ||= klass.create(:name => 'hello world')
         end
 
       end

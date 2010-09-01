@@ -35,6 +35,10 @@ module FriendlyId
           :save
         end
 
+        def unfriendly_class
+          Unfriendly
+        end
+
         def validation_exceptions
           nil # DataMapper does not raise Validation Errors
         end

@@ -12,7 +12,7 @@ module FriendlyId
         include FriendlyId::Test::DataMapperAdapter::Slugged
 
         def klass
-          Cat
+          Novel
         end
 
       end
