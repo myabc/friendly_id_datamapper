@@ -57,6 +57,13 @@ module FriendlyId
         end
       end
 
+      # Returns the friendly id, or if none is available, the numeric id. Note that this
+      # method will use the cached_slug value if present, unlike {#friendly_id}.
+      def to_param
+        # friendly_id_config.cache_column ? to_param_from_cache : to_param_from_slug
+        to_param_from_slug
+      end
+
       def slug
         @slug ||= slugs.first
       end
@@ -73,6 +80,11 @@ module FriendlyId
       end
 
       private
+
+      # Respond with the slugged value if available.
+      def to_param_from_slug
+        slug? ? slug.to_friendly_id : id.to_s
+      end
 
       def build_slug
         @slug = slugs.new(:name => slug_text)

@@ -18,6 +18,10 @@ require 'forwardable'
 require 'dm-core'
 require 'dm-validations'
 require 'dm-migrations'
+# NOTE: dm-active_model is not a runtime requirement, as we implement
+# #to_param for models. It is a testing requirement to ensure that our
+# #to_param implementation overrides the default dm-active_model impl.
+require 'dm-active_model'
 
 DataMapper.setup(:default, 'sqlite3::memory:')
 logger  = DataMapper::Logger.new('dm.log', :debug)
