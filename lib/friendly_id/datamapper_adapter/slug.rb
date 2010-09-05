@@ -27,11 +27,16 @@ module FriendlyId
         sequence.to_i > 1 ? friendly_id_with_sequence : name
       end
 
-      private
-
       def sluggable
         sluggable_type.get(sluggable_id)
       end
+
+      def sluggable=(instance)
+        attribute_set(:sluggable_type, instance.class)
+        attribute_set(:sluggable_id,   instance.id)
+      end
+
+      private
 
       def enable_name_reversion
         conditions = { :sluggable_id => sluggable_id, :sluggable_type => sluggable_type,
