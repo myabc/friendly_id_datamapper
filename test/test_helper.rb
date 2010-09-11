@@ -23,8 +23,8 @@ require 'dm-migrations'
 # #to_param implementation overrides the default dm-active_model impl.
 require 'dm-active_model'
 
+DataMapper::Logger.new('dm.log', :debug)
 DataMapper.setup(:default, 'sqlite3::memory:')
-logger  = DataMapper::Logger.new('dm.log', :debug)
 
 $LOAD_PATH << './lib'
 
