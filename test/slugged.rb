@@ -6,18 +6,6 @@ module FriendlyId
 
       module Slugged
 
-=begin
-        test "should allow eager loading of slugs" do
-          assert_nothing_raised do
-            klass.find(instance.friendly_id, :include => :slugs)
-          end
-
-          assert_nothing_raised do
-            klass.find(instance.friendly_id, :include => :slug)
-          end
-        end
-=end
-
         def klass
           Post
         end
