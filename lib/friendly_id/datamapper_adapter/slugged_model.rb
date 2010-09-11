@@ -45,8 +45,12 @@ module FriendlyId
           if key.size == 1
             return super if key.first.unfriendly_id?
             name, sequence = key.first.to_s.parse_friendly_id
-            repository = self.repository
-            result     = self.first({
+
+            if friendly_id_config.cache_column?
+              result = self.first(friendly_id_config.cache_column => key.first)
+            end
+
+            result ||= self.first({
               slugs.name     => name,
               slugs.sequence => sequence
             })
@@ -85,7 +89,7 @@ module FriendlyId
 
       # Respond with the cached value if available.
       def to_param_from_cache
-        read_attribute(friendly_id_config.cache_column) || id.to_s
+        attribute_get(friendly_id_config.cache_column) || id.to_s
       end
 
       # Respond with the slugged value if available.
@@ -110,11 +114,8 @@ module FriendlyId
       # Reset the cached friendly_id.
       def set_slug_cache
         if new_cache_needed?
-          #send "#{friendly_id_config.cache_column}=", slug.to_friendly_id
           self.attribute_set(friendly_id_config.cache_column, slug.to_friendly_id)
-          # puts self.dirty?
-
-          save!
+          self.send(:save_self) # save!
         end
       end
 

@@ -51,7 +51,7 @@ module FriendlyId
         end
 
         test "should cache the incremented sequence for duplicate slug names" do
-          instance_2 = klass.create!(:name => instance.name)
+          instance_2 = klass.create(:name => instance.name)
           assert_match(/2\z/, instance_2.send(cache_column))
         end
 
