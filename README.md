@@ -3,7 +3,6 @@ This is an in-development experimental adapter for
 
 It currently supports all of FriendlyId's features except:
 
-* Cached slugs
 * Scoped slugs
 * Rake tasks
 * Rails Generator
