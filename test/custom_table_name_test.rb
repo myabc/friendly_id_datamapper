@@ -2,7 +2,7 @@ require File.expand_path('../test_helper', __FILE__)
 
 module FriendlyId
   module Test
-    module ActiveRecordAdapter
+    module DataMapperAdapter
 
       class CustomTableNameTest < ::Test::Unit::TestCase
 
