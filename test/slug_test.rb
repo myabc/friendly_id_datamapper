@@ -7,7 +7,7 @@ module FriendlyId
     class SlugTest < ::Test::Unit::TestCase
 
       def teardown
-        FriendlyId::DataMapperAdapter::Slug.all.destroy!
+        Slug.all.destroy!
         Post.all.destroy!
       end
 
@@ -21,12 +21,12 @@ module FriendlyId
       end
 
       test "should include the sequence if the sequence is greater than 1" do
-        slug = FriendlyId::DataMapperAdapter::Slug.new(:name => "test", :sluggable => Post.new, :sequence => 2)
+        slug = Slug.new(:name => "test", :sluggable => Post.new, :sequence => 2)
         assert_equal "test--2", slug.to_friendly_id
       end
 
       test "should not include the sequence if the sequence is 1" do
-        slug = FriendlyId::DataMapperAdapter::Slug.new(:name => "test",  :sluggable => Post.new, :sequence => 1)
+        slug = Slug.new(:name => "test",  :sluggable => Post.new, :sequence => 1)
         assert_equal "test", slug.to_friendly_id
       end
 

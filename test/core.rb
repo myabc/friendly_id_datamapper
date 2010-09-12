@@ -16,7 +16,7 @@ module FriendlyId
         def teardown
           klass.all.destroy!
           other_class.all.destroy!
-          FriendlyId::DataMapperAdapter::Slug.all.destroy!
+          Slug.all.destroy!
         end
 
         def find_method

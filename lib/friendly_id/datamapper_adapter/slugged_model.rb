@@ -11,7 +11,7 @@ module FriendlyId
       def self.included(base)
         base.class_eval do
           has n, :slugs,
-            :model      => ::FriendlyId::DataMapperAdapter::Slug,
+            :model      => ::Slug,
             :child_key  => [:sluggable_id],
             :conditions => { :sluggable_type => base },
             :order      => [:id.desc]
@@ -70,19 +70,12 @@ module FriendlyId
 
       def find_slug(name, sequence)
         @slug = slugs.first(:name => name, :sequence => sequence)
-        #s = FriendlyId::DataMapperAdapter::Slug.first(:name => name, :sequence => sequence,
-        #  :sluggable_type => self.class)
-        @slug
       end
 
       # Returns the friendly id, or if none is available, the numeric id. Note that this
       # method will use the cached_slug value if present, unlike {#friendly_id}.
       def to_param
         friendly_id_config.cache_column ? to_param_from_cache : to_param_from_slug
-      end
-
-      def self.slug_class
-        FriendlyId::DataMapperAdapter::Slug
       end
 
       private
