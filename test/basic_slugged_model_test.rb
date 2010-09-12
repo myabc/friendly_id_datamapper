@@ -5,11 +5,11 @@ module FriendlyId
     module DataMapperAdapter
 
       # Tests for DataMapper models using FriendlyId with slugs.
-      class BasicSluggedTest < ::Test::Unit::TestCase
+      class BasicSluggedModelTest < ::Test::Unit::TestCase
         include FriendlyId::Test::Generic
         include FriendlyId::Test::Slugged
-        include FriendlyId::Test::DataMapperAdapter::Core
         include FriendlyId::Test::DataMapperAdapter::Slugged
+        include FriendlyId::Test::DataMapperAdapter::Core
       end
     end
   end

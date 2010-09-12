@@ -33,14 +33,12 @@ module FriendlyId
 
         test "should protect the cached slug value" do
           old_value = cached_slug
-          instance.attributes(cache_column => "Madrid")
-          instance.save
-          instance.reload
+          instance.update(cache_column => "Madrid")
           assert_equal old_value, cached_slug
         end
 
         test "should update the cached slug when updating the slug" do
-          instance.attributes(:name => "new name")
+          instance.update(:name => "new name")
           assert_equal instance.slug.to_friendly_id, cached_slug
         end
 
@@ -64,6 +62,7 @@ module FriendlyId
           instance.expects(:slug)
           instance.friendly_id(true)
         end
+
         test "should not fire callbacks when updating slug cache" do
           instance.expects(:say_hello).once
           instance.update(:name => "new name")

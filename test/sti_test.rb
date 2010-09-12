@@ -8,14 +8,15 @@ module FriendlyId
 
         include FriendlyId::Test::Generic
         include FriendlyId::Test::Slugged
-        include FriendlyId::Test::DataMapperAdapter::Core
         include FriendlyId::Test::DataMapperAdapter::Slugged
+        include FriendlyId::Test::DataMapperAdapter::Core
 
         def klass
           Novel
         end
 
       end
+
     end
   end
 end
