@@ -20,6 +20,10 @@ class Slug
     sluggable.slugs.first == self
   end
 
+  def outdated?
+    !current?
+  end
+
   def to_friendly_id
     sequence.to_i > 1 ? friendly_id_with_sequence : name
   end

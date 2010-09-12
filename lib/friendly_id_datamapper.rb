@@ -4,6 +4,7 @@ require 'friendly_id/datamapper_adapter/configuration'
 require 'friendly_id/datamapper_adapter/slug'
 require 'friendly_id/datamapper_adapter/simple_model'
 require 'friendly_id/datamapper_adapter/slugged_model'
+# require 'friendly_id/datamapper_adapter/tasks'
 require 'forwardable'
 
 module FriendlyId
