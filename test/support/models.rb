@@ -6,6 +6,13 @@ class District
   property :note,         String
   property :cached_slug,  String, :index => :unique
   has_friendly_id :name, :use_slug => true
+  before :save, :say_hello
+
+  private
+
+  def say_hello
+    @said_hello = true
+  end
 end
 
 # A model with optimistic locking enabled

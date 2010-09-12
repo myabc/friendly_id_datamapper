@@ -115,7 +115,7 @@ module FriendlyId
       def set_slug_cache
         if new_cache_needed?
           self.attribute_set(friendly_id_config.cache_column, slug.to_friendly_id)
-          self.send(:save_self) # save!
+          self.save_self(false) # save!
         end
       end
 
