@@ -26,7 +26,7 @@ class Slug
 
   # Whether this slug is the most recent of its owner's slugs.
   def current?
-    sluggable.slugs.first == self
+    sluggable.slug == self
   end
 
   def outdated?
@@ -34,7 +34,7 @@ class Slug
   end
 
   def to_friendly_id
-    sequence.to_i > 1 ? friendly_id_with_sequence : name
+    sequence > 1 ? friendly_id_with_sequence : name
   end
 
   def sluggable

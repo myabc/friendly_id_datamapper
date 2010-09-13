@@ -42,7 +42,7 @@ module FriendlyId
 
       # Returns the friendly_id.
       def friendly_id
-        send self.class.friendly_id_config.column
+        send friendly_id_config.column
       end
 
       # Returns the friendly id, or if none is available, the numeric id.
