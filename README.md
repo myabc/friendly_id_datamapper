@@ -15,6 +15,13 @@ Currently, only finds using `get` is supported.
     @post = Post.get("this-is-a-title")
     @post.friendly_id # this-is-a-title
 
+## Compatibility
+
+The FriendlyId DataMapper Adapter keeps in lock-step with major and
+minor versions of the FriendlyId gem, i.e.
+`friendly_id_datamapper 3.1.x` is compatible with `friendly_id 3.1.x series`.
+Patch and build versions are not kept in lock-step.
+
 ## Usage
 
     gem install friendly_id friendly_id_datamapper
