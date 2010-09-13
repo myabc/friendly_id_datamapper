@@ -3,9 +3,8 @@ This is an in-development experimental adapter for
 
 It currently supports all of FriendlyId's features except:
 
-* Scoped slugs
-* Rake tasks
 * Rails Generator
+* Support for multiple finders
 
 Currently, only finds using `get` is supported.
 
