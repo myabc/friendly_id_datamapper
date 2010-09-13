@@ -1,5 +1,9 @@
-This is an in-development experimental adapter for
+# FriendlyId DataMapper Adapter
+
+This is an pre-release (beta) adapter for
 [FriendlyId](http://norman.github.com/friendly_id) using DataMapper.
+
+## FriendlyId Features
 
 It currently supports all of FriendlyId's features except:
 
@@ -30,3 +34,23 @@ Currently, only finds using `get` is supported.
 
 For more information on the available features, please see the
 [FriendlyId Guide](http://norman.github.com/friendly_id/file.Guide.html).
+
+## Bugs
+
+Please report them on the [Github issue tracker](http://github.com/myabc/friendly_id_datamapper/issues)
+for this project.
+
+If you have a bug to report, please include the following information:
+
+* **Version information for FriendlyId, friendly_id_datamapper, Rails and Ruby.**
+* Stack trace and error message.
+* Any snippets of relevant model, view or controller code that shows how your
+  are using FriendlyId.
+
+If you are able to, it helps even more if you can fork FriendlyId on Github,
+and add a test that reproduces the error you are experiencing.
+
+## Credits
+
+Copyright (c) 2010, released under the MIT license.
+

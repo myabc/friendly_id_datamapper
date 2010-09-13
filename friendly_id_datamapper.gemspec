@@ -11,7 +11,7 @@ spec = Gem::Specification.new do |s|
   s.description       = "An adapter for using DataMapper::Resource with FriendlyId."
   s.has_rdoc          = true
   s.test_files        = Dir.glob "test/**/*_test.rb"
-  s.files             = Dir["lib/**/*.rb", "lib/**/*.rake", "*.md", "LICENSE", "Rakefile", "test/**/*.*"]
+  s.files             = Dir["lib/**/*.rb", "lib/**/*.rake", "*.md", "MIT-LICENSE", "Rakefile", "test/**/*.*"]
   s.add_dependency    "friendly_id",    "~> 3.1.0"
   s.add_dependency    'dm-core',        '~> 1.0.0'
   s.add_dependency    'dm-validations', '~> 1.0.0'
