@@ -1,4 +1,5 @@
 require 'dm-core'
+require 'dm-transactions'
 require 'dm-validations'
 require 'friendly_id/datamapper_adapter/configuration'
 require 'friendly_id/datamapper_adapter/slug'

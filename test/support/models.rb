@@ -164,19 +164,22 @@ class Question
   include DataMapper::Resource
   has_friendly_id :name, :use_slug => true
 end
+=end
 
 # A model to test polymorphic associations
 class Site
   include DataMapper::Resource
-  property :name
-  belongs_to :owner, :polymorphic => true
+  property :id,   Serial
+  property :name, String
+  belongs_to :owner, 'Company'
+  #belongs_to :owner, :polymorphic => true
   has_friendly_id :name, :use_slug => true
 end
 
 # A model used as a polymorphic owner
 class Company
   include DataMapper::Resource
+  property :id,   Serial
   property :name, String
-  has n, :sites, :as => :owner
+  #has n, :sites, :as => :owner
 end
-=end

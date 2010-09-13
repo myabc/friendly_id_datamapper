@@ -11,6 +11,12 @@ module FriendlyId
           validates_presence_of column, :unless => :skip_friendly_id_validations
           validates_length_of   column, :maximum => friendly_id_config.max_length, :unless => :skip_friendly_id_validations
           validates_with_method column, :method => :validate_friendly_id, :unless => :skip_friendly_id_validations
+
+          before :update do
+            @old_friendly_id = original_attributes[properties[friendly_id_config.column]]
+          end
+
+          after  :update, :update_scopes
         end
 
         def base.get(*key)
@@ -45,6 +51,16 @@ module FriendlyId
       end
 
       private
+
+      # Update the slugs for any model that is using this model as its
+      # FriendlyId scope.
+      def update_scopes
+        if @old_friendly_id != friendly_id
+          friendly_id_config.child_scopes.each do |klass|
+            Slug.all(:sluggable_type => klass, :scope => @old_friendly_id).update(:scope => friendly_id)
+          end
+        end
+      end
 
       def friendly_id_config
         self.class.friendly_id_config

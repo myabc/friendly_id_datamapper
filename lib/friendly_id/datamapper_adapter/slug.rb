@@ -15,6 +15,15 @@ class Slug
     self.created_at = DateTime.now
   end
 
+  def self.similar_to(slug)
+    all({
+      :name           => slug.name,
+      :scope          => slug.scope,
+      :sluggable_type => slug.sluggable_type,
+      :order          => [:sequence.asc]
+    })
+  end
+
   # Whether this slug is the most recent of its owner's slugs.
   def current?
     sluggable.slugs.first == self

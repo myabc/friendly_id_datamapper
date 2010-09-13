@@ -33,10 +33,9 @@ module FriendlyId
       end
 
       def child_scopes
-        raise NotImplementedError
-        # @child_scopes ||= associated_friendly_classes.select do |klass|
-        #   klass.friendly_id_config.scopes_over?(configured_class)
-        # end
+        @child_scopes ||= associated_friendly_classes.select do |klass|
+          klass.friendly_id_config.scopes_over?(configured_class)
+        end
       end
 
       def custom_cache_column?
@@ -55,6 +54,12 @@ module FriendlyId
 
       def autodiscover_cache_column
         :cached_slug if configured_class.properties[:cached_slug]
+      end
+
+      def associated_friendly_classes
+        configured_class.relationships.values.select { |relationship|
+          relationship.child_model.respond_to?(:friendly_id_config)
+        }.map(&:child_model)
       end
 
     end

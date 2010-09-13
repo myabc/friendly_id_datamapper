@@ -39,21 +39,40 @@ module FriendlyId
             set_slug_cache
           end
 
+          after :update, :update_scope
+          after :update, :update_dependent_scopes
+        end
+
+        def base.extract_options!(args)
+          options = args.last
+          if options.respond_to?(:to_hash)
+            args.pop
+            options.to_hash.dup
+          else
+            {}
+          end
         end
 
         def base.get(*key)
+          options = extract_options!(key)
+
           if key.size == 1
             return super if key.first.unfriendly_id?
             name, sequence = key.first.to_s.parse_friendly_id
 
-            if friendly_id_config.cache_column?
+            if !friendly_id_config.scope? && friendly_id_config.cache_column?
               result = self.first(friendly_id_config.cache_column => key.first)
             end
 
-            result ||= self.first({
+            conditions = {
               slugs.name     => name,
               slugs.sequence => sequence
-            })
+            }
+            conditions.merge!({
+              slugs.scope    => (options[:scope].to_param if options[:scope] && options[:scope].respond_to?(:to_param))
+            }) if friendly_id_config.scope?
+
+            result ||= self.first(conditions)
             return super unless result
             result.friendly_id_status.name = name
             result.friendly_id_status.sequence = sequence
@@ -62,6 +81,23 @@ module FriendlyId
             super
           end
         end
+
+        def base.get!(*key)
+          return super unless friendly_id_config.scope?
+
+          result = get(*key)
+          if result
+            result
+          else
+            options = extract_options!(key)
+            scope   = options[:scope]
+            message = "Could not find #{self.name} with key #{key.inspect}"
+            message << " and scope #{scope.inspect}" if scope
+            message << ". Scope expected but none given." unless scope
+            raise(::DataMapper::ObjectNotFoundError, message)
+          end
+        end
+
       end
 
       def slug
@@ -80,6 +116,10 @@ module FriendlyId
 
       private
 
+      def scope_changed?
+        friendly_id_config.scope? && send(friendly_id_config.scope).to_param != slug.scope
+      end
+
       # Respond with the cached value if available.
       def to_param_from_cache
         attribute_get(friendly_id_config.cache_column) || id.to_s
@@ -93,7 +133,7 @@ module FriendlyId
       # Build the new slug using the generated friendly id.
       def build_slug
         return unless new_slug_needed?
-        @slug = slugs.new(:name => slug_text)
+        @slug = slugs.new(:name => slug_text, :scope => friendly_id_config.scope_for(self))
         raise FriendlyId::BlankError unless @slug.valid?
         @new_friendly_id = @slug.to_friendly_id
         @slug
@@ -114,6 +154,31 @@ module FriendlyId
 
       def skip_friendly_id_validations
         friendly_id.nil? && friendly_id_config.allow_nil?
+      end
+
+      def update_scope
+        return unless slug && scope_changed?
+        transaction do
+          slug.scope = send(friendly_id_config.scope).to_param
+          similar = Slug.similar_to(slug)
+          if !similar.empty?
+            slug.sequence = similar.first.sequence.succ
+          end
+          slug.save
+        end
+      end
+
+      # Update the slugs for any model that is using this model as its
+      # FriendlyId scope.
+      def update_dependent_scopes
+        return unless friendly_id_config.class.scopes_used?
+        # slugs.reload.size == 1, slugs.dirty? == true
+        if slugs.size > 1 && @new_friendly_id
+          friendly_id_config.child_scopes.each do |klass|
+            # slugs.first -- ordering not respected when dirty
+            Slug.all(:sluggable_type => klass, :scope => slugs.first.to_friendly_id).update(:scope => @new_friendly_id)
+          end
+        end
       end
 
       # Does the model use slug caching?
