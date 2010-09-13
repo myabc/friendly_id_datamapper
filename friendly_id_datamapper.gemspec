@@ -15,4 +15,5 @@ spec = Gem::Specification.new do |s|
   s.add_dependency    "friendly_id",    "~> 3.1.0"
   s.add_dependency    'dm-core',        '~> 1.0.0'
   s.add_dependency    'dm-validations', '~> 1.0.0'
+  s.add_dependency    'dm-transactions','~> 1.0.0'
 end
