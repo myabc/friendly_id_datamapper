@@ -53,51 +53,52 @@ module FriendlyId
           end
         end
 
-        def base.get(*key)
-          options = extract_options!(key)
-
-          if key.size == 1
-            return super if key.first.unfriendly_id?
-            name, sequence = key.first.to_s.parse_friendly_id
-
-            if !friendly_id_config.scope? && friendly_id_config.cache_column?
-              result = self.first(friendly_id_config.cache_column => key.first)
-            end
-
-            conditions = {
-              slugs.name     => name,
-              slugs.sequence => sequence
-            }
-            conditions.merge!({
-              slugs.scope    => (options[:scope].to_param if options[:scope] && options[:scope].respond_to?(:to_param))
-            }) if friendly_id_config.scope?
-
-            result ||= self.first(conditions)
-            return super unless result
-            result.friendly_id_status.name = name
-            result.friendly_id_status.sequence = sequence
-            result
-          else
-            super
-          end
-        end
-
-        def base.get!(*key)
-          return super unless friendly_id_config.scope?
-
-          result = get(*key)
-          if result
-            result
-          else
+        base.class_eval <<-RUBY
+          def self.get(*key)
             options = extract_options!(key)
-            scope   = options[:scope]
-            message = "Could not find #{self.name} with key #{key.inspect}"
-            message << " and scope #{scope.inspect}" if scope
-            message << ". Scope expected but none given." unless scope
-            raise(::DataMapper::ObjectNotFoundError, message)
-          end
-        end
 
+            if key.size == 1
+              return super if key.first.unfriendly_id?
+              name, sequence = key.first.to_s.parse_friendly_id
+
+              if !friendly_id_config.scope? && friendly_id_config.cache_column?
+                result = self.first(friendly_id_config.cache_column => key.first)
+              end
+
+              conditions = {
+                slugs.name     => name,
+                slugs.sequence => sequence
+              }
+              conditions.merge!({
+                slugs.scope    => (options[:scope].to_param if options[:scope] && options[:scope].respond_to?(:to_param))
+              }) if friendly_id_config.scope?
+
+              result ||= self.first(conditions)
+              return super unless result
+              result.friendly_id_status.name = name
+              result.friendly_id_status.sequence = sequence
+              result
+            else
+              super
+            end
+          end
+
+          def self.get!(*key)
+            return super unless friendly_id_config.scope?
+
+            result = get(*key)
+            if result
+              result
+            else
+              options = extract_options!(key)
+              scope   = options[:scope]
+              message = "Could not find \#{self.name} with key \#{key.inspect}"
+              message << " and scope \#{scope.inspect}" if scope
+              message << ". Scope expected but none given." unless scope
+              raise(::DataMapper::ObjectNotFoundError, message)
+            end
+          end
+        RUBY
       end
 
       def slug
