@@ -57,7 +57,7 @@ module FriendlyId
           end
         end
 
-        base.class_eval <<-RUBY
+        base.class_eval <<-RUBY, __FILE__, __LINE__ + 1
           def self.get(*key)
             options = extract_options!(key)
 
