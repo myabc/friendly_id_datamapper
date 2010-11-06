@@ -10,16 +10,11 @@ module FriendlyId
 
       def self.included(base)
         base.class_eval do
-          relationship_options = {
+          has n, :slugs,
             :model      => ::Slug,
             :child_key  => [:sluggable_id],
             :conditions => { :sluggable_type => base },
             :order      => [:id.desc]
-          }
-          relationship_options.merge!(:constraint => :destroy) if defined?(DataMapper::Constraints)
-
-          has n, :slugs, relationship_options
-
 
           before :save do
             begin
