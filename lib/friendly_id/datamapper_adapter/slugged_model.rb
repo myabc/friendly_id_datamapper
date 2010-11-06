@@ -41,6 +41,10 @@ module FriendlyId
 
           after :update, :update_scope
           after :update, :update_dependent_scopes
+
+          before(:destroy) do
+            slugs.destroy!
+          end
         end
 
         def base.extract_options!(args)
