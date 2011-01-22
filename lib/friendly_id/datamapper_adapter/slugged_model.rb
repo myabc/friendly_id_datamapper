@@ -47,22 +47,12 @@ module FriendlyId
           end
         end
 
-        def base.extract_options!(args)
-          options = args.last
-          if options.respond_to?(:to_hash)
-            args.pop
-            options.to_hash.dup
-          else
-            {}
-          end
-        end
-
         base.class_eval <<-RUBY, __FILE__, __LINE__ + 1
           def self.get(*key)
-            options = extract_options!(key)
+            options = key.extract_options!
 
             if key.size == 1
-              return super if key.first.unfriendly_id?
+              return super if key.first.is_a?(Array) || key.first.unfriendly_id?
               name, sequence = key.first.to_s.parse_friendly_id
 
               if !friendly_id_config.scope? && friendly_id_config.cache_column?
@@ -94,7 +84,7 @@ module FriendlyId
             if result
               result
             else
-              options = extract_options!(key)
+              options = key.extract_options!
               scope   = options[:scope]
               message = "Could not find \#{self.name} with key \#{key.inspect}"
               message << " and scope \#{scope.inspect}" if scope
