@@ -1,11 +1,11 @@
 require "rake"
 require "rake/testtask"
-require "rake/gempackagetask"
+require 'rubygems/package_task'
 require "rake/clean"
 
 CLEAN << "pkg" << "doc" << "coverage" << ".yardoc"
 
-Rake::GemPackageTask.new(eval(File.read("friendly_id_datamapper.gemspec"))) { |pkg| }
+Gem::PackageTask.new(eval(File.read("friendly_id_datamapper.gemspec"))) { |pkg| }
 Rake::TestTask.new(:test) { |t| t.pattern = "test/*_test.rb" }
 
 task :default => :test
