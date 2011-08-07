@@ -2,27 +2,26 @@
 
 [![Build Status](http://travis-ci.org/myabc/friendly_id_datamapper.png)](http://travis-ci.org/myabc/friendly_id_datamapper)
 
-This is an pre-release (beta) adapter for
-[FriendlyId](http://norman.github.com/friendly_id) using DataMapper.
+An adapter for [FriendlyId](http://norman.github.com/friendly_id) using
+DataMapper.
 
 ## FriendlyId Features
 
 It currently supports all of FriendlyId's features except:
 
 * Rails Generator
-* Support for multiple finders
 
-Currently, only finds using `get` is supported.
+Currently, only finds using `get` are supported.
 
     @post = Post.get("this-is-a-title")
     @post.friendly_id # this-is-a-title
 
 ## Compatibility
 
-The FriendlyId DataMapper Adapter keeps in lock-step with major and
-minor versions of the FriendlyId gem, i.e.
-`friendly_id_datamapper 3.1.x` is compatible with `friendly_id 3.1.x series`.
-Patch and build versions are not kept in lock-step.
+The FriendlyId DataMapper Adapter keeps in lock-step with major and minor
+versions of the FriendlyId gem, i.e. `friendly_id_datamapper 3.2.x` is
+compatible with `friendly_id 3.2.x series`. Patch and build versions are not
+kept in lock-step.
 
 ## Usage
 
@@ -43,6 +42,12 @@ Patch and build versions are not kept in lock-step.
 
 For more information on the available features, please see the
 [FriendlyId Guide](http://norman.github.com/friendly_id/file.Guide.html).
+
+## Known Issues
+
+FriendlyId DataMapper Adapter is not yet compatible with Ruby 1.9.3, because of
+an issue with a dependency `dm-do-adapter` and changes with the DateTime class,
+after its reimplementation in C (namely, `DateTime#new!` no longer exists).
 
 ## Bugs
 
