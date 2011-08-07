@@ -7,5 +7,5 @@ rvm:
   - jruby
   - ruby-head
 gemfile:
-  - ci/Gemfile.datamapper-1.0.x
-  - ci/Gemfile.datamapper-1.1.x
+  - Gemfile.datamapper-1.0.x.ci
+  - Gemfile.datamapper-1.1.x.ci
