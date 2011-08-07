@@ -59,5 +59,4 @@ and add a test that reproduces the error you are experiencing.
 
 ## Credits
 
-Copyright (c) 2010, released under the MIT license.
-
+Copyright (c) 2010, 2011, released under the MIT license.
