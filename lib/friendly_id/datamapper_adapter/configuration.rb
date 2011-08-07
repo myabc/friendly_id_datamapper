@@ -57,9 +57,17 @@ module FriendlyId
       end
 
       def associated_friendly_classes
-        configured_class.relationships.values.select { |relationship|
+        configured_class_relationships.select { |relationship|
           relationship.child_model.respond_to?(:friendly_id_config)
         }.map(&:child_model)
+      end
+
+      def configured_class_relationships
+        unless (relationships = configured_class.relationships).is_a?(Hash)
+          relationships         # DataMapper 1.1.x
+        else
+          relationships.values  # DataMapper 1.0.x
+        end
       end
 
     end
