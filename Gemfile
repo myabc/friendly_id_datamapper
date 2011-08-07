@@ -10,7 +10,7 @@ gem 'dm-sqlite-adapter',  '~> 1.1'
 gem 'dm-active_model',    '~> 1.1'
 gem 'dm-transactions',    '~> 1.1'
 
-gem 'friendly_id',       :path => '../friendly_id'
+#gem 'friendly_id',       :path => '../friendly_id'
 
 group :development do
   gem 'rake', '~> 0.8.7'
