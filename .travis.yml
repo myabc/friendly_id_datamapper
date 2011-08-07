@@ -1,0 +1,11 @@
+rvm:
+  - 1.8.7
+  - 1.9.2
+  - rbx
+  - rbx-2.0
+  - ree
+  - jruby
+  - ruby-head
+gemfile:
+  - ci/Gemfile.datamapper-1.0.x
+  - ci/Gemfile.datamapper-1.1.x
