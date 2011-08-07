@@ -1,5 +1,7 @@
 # FriendlyId DataMapper Adapter
 
+[![Build Status](http://travis-ci.org/myabc/friendly_id_datamapper.png)](http://travis-ci.org/myabc/friendly_id_datamapper)
+
 This is an pre-release (beta) adapter for
 [FriendlyId](http://norman.github.com/friendly_id) using DataMapper.
 
