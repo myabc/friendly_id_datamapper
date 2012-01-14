@@ -2,13 +2,13 @@ source :rubygems
 
 gemspec
 
-gem 'dm-core',            '~> 1.1'
-gem 'dm-migrations',      '~> 1.1'
-gem 'dm-validations',     '~> 1.1'
-gem 'dm-mysql-adapter',   '~> 1.1'
-gem 'dm-sqlite-adapter',  '~> 1.1'
-gem 'dm-active_model',    '~> 1.1'
-gem 'dm-transactions',    '~> 1.1'
+gem 'dm-core',            '~> 1.2'
+gem 'dm-migrations',      '~> 1.2'
+gem 'dm-validations',     '~> 1.2'
+gem 'dm-mysql-adapter',   '~> 1.2'
+gem 'dm-sqlite-adapter',  '~> 1.2'
+gem 'dm-active_model',    '~> 1.2'
+gem 'dm-transactions',    '~> 1.2'
 
 gem 'friendly_id',       :path => '../friendly_id'
 
