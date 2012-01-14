@@ -2,8 +2,8 @@
 
 [![Build Status](https://travis-ci.org/myabc/friendly_id_datamapper.png)](http://travis-ci.org/myabc/friendly_id_datamapper)
 
-An adapter for [FriendlyId](http://norman.github.com/friendly_id) using
-DataMapper.
+An adapter for [FriendlyId](https://github.com/norman/friendly_id/tree/3.x) 3.x
+using DataMapper. _N.B. This adapter does not support FriendlyId 4.x._
 
 ## FriendlyId Features
 
@@ -41,7 +41,9 @@ kept in lock-step.
 
 
 For more information on the available features, please see the
-[FriendlyId Guide](http://norman.github.com/friendly_id/file.Guide.html).
+[FriendlyId 3.x Guide](https://github.com/norman/friendly_id/blob/3.x/Guide.md).
+
+Documentation for FriendlyId 3.x may also be found on [rubydoc.info](http://rubydoc.info/gems/friendly_id/3.3.1).
 
 ## Known Issues
 
@@ -66,4 +68,4 @@ and add a test that reproduces the error you are experiencing.
 
 ## Credits
 
-Copyright (c) 2010, 2011, released under the MIT license.
+Copyright (c) 2010, 2011, 2012 released under the MIT license.
