@@ -8,3 +8,4 @@ rvm:
 gemfile:
   - Gemfile.datamapper-1.0.x.ci
   - Gemfile.datamapper-1.1.x.ci
+  - Gemfile.datamapper-1.2.x.ci
