@@ -1,6 +1,6 @@
 # FriendlyId DataMapper Adapter
 
-[![Build Status](https://travis-ci.org/myabc/friendly_id_datamapper.png)](http://travis-ci.org/myabc/friendly_id_datamapper)
+[![Build Status](https://secure.travis-ci.org/myabc/friendly_id_datamapper.png)](http://travis-ci.org/myabc/friendly_id_datamapper)
 
 An adapter for [FriendlyId](https://github.com/norman/friendly_id/tree/3.x) 3.x
 using DataMapper. _N.B. This adapter does not support FriendlyId 4.x._
