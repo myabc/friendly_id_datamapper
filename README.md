@@ -13,8 +13,10 @@ It currently supports all of FriendlyId's features except:
 
 Currently, only finds using `get` are supported.
 
+```ruby
     @post = Post.get("this-is-a-title")
     @post.friendly_id # this-is-a-title
+```
 
 ## Compatibility
 
@@ -27,6 +29,7 @@ kept in lock-step.
 
     gem install friendly_id friendly_id_datamapper
 
+```ruby
     require "friendly_id"
     require "friendly_id/datamapper"
 
@@ -38,7 +41,7 @@ kept in lock-step.
 
       has_friendly_id :title, :use_slug => true
     end
-
+```
 
 For more information on the available features, please see the
 [FriendlyId 3.x Guide](https://github.com/norman/friendly_id/blob/3.x/Guide.md).
